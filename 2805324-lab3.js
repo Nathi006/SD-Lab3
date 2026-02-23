@@ -53,13 +53,6 @@ function filterAndTransformTracks(tracks, criteria){
             decade: `${Math.floor(track.year / 10) * 10}s`
         }));
 }
-console.log("output1")
-const output = filterAndTransformTracks(tracks, { artist: 'The Weeknd' });
-console.log(output);
-console.log("output2")
-const output2 = filterAndTransformTracks(tracks, { minYear: 2015, maxYear: 2020 });
-console.log(output2);
-
 module.exports = {
     getMusicTitlesByYear,
     filterAndTransformTracks
