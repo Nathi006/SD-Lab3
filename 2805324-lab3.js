@@ -32,14 +32,34 @@ const tracks = [
  * @returns {Array} - Filtered and transformed track objects
  */
 function filterAndTransformTracks(tracks, criteria){
-    const {minYear, maxYear, artist} = criteria;
-    let output = [];
-    if (tracks.length === null || Array.isArray(tracks)){
-        return []
-    }
-}
+    if (!Array.isArray(tracks) || tracks.length === 0) return [];
 
-console.log(filterAndTransformTracks(tracks, {artist : 'The Weekend'}));
+    const { minYear, maxYear, artist } = criteria || {};
+
+    return tracks
+        .filter(track => {
+            if (!track || typeof track.title !== 'string' || typeof track.artist !== 'string' || typeof track.year !== 'number') {
+                return false;
+            }
+            if (minYear !== undefined && track.year < minYear) return false;
+            if (maxYear !== undefined && track.year > maxYear) return false;
+            if (artist !== undefined && track.artist.toLowerCase() !== artist.toLowerCase()) return false;
+            return true;
+        })
+        .map(track => ({
+            title: track.title,
+            artist: track.artist,
+            year: track.year,
+            decade: `${Math.floor(track.year / 10) * 10}s`
+        }));
+}
+console.log("output1")
+const output = filterAndTransformTracks(tracks, { artist: 'The Weeknd' });
+console.log(output);
+console.log("output2")
+const output2 = filterAndTransformTracks(tracks, { minYear: 2015, maxYear: 2020 });
+console.log(output2);
+
 module.exports = {
     getMusicTitlesByYear,
     filterAndTransformTracks
